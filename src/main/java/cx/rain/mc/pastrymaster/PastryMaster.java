@@ -15,7 +15,7 @@ public final class PastryMaster extends JavaPlugin {
     public PastryMaster() {
         INSTANCE = this;
 
-        configManager = new ConfigManager(this);
+        //configManager = new ConfigManager(this);
     }
 
     public static PastryMaster getInstance() {
@@ -27,8 +27,9 @@ public final class PastryMaster extends JavaPlugin {
         // Plugin startup logic
         getLogger().info("Are you pastry master?");
 
+
         saveDefaultConfig();
-        configManager.load();
+        //configManager.load();
 
         Bukkit.getPluginManager().registerEvents(new ListenerPlayerKnead(), this);
 
@@ -46,7 +47,7 @@ public final class PastryMaster extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        configManager.save();
+        //configManager.save();
         saveConfig();
 
         getLogger().info("Goodbye, pastry master.");
