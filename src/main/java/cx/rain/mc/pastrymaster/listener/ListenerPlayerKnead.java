@@ -1,6 +1,7 @@
 package cx.rain.mc.pastrymaster.listener;
 
 import cx.rain.mc.pastrymaster.PastryMaster;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -26,12 +27,15 @@ public class ListenerPlayerKnead implements Listener {
             Player targetPlayer = (Player) entity;
             Player player = event.getPlayer();
 
-            player.spigot().sendMessage(new TextComponent(
-                    String.format(config.getString("messages.knead_player"),
-                            targetPlayer.getName())));
-            targetPlayer.spigot().sendMessage(new TextComponent(
-                    String.format(config.getString("messages.knead_by_player"),
-                            player.getName())));
+            TextComponent text = new TextComponent(String.format(
+                    config.getString("messages.knead_player"), targetPlayer.getName()));
+            text.setColor(ChatColor.AQUA);
+            player.spigot().sendMessage(text);
+
+            TextComponent targetText = new TextComponent(String.format(
+                    config.getString("messages.knead_player"), targetPlayer.getName()));
+            text.setColor(ChatColor.GOLD);
+            targetPlayer.spigot().sendMessage(targetText);
         }
     }
 }
