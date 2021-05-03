@@ -34,7 +34,7 @@ public final class PastryMaster extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ListenerPlayerKnead(), this);
 
         try {
-            Class.forName("cx.rain.mc.bukkit.loreanvil");
+            Class.forName("cx.rain.mc.bukkit.loreanvil.LoreAnvil");
             Plugin plugin = Bukkit.getPluginManager().getPlugin("LoreAnvil");
             plugin.getLogger().info("Oh, I'm sad, there are no hug.");
             getLogger().info("Don't be sad, have a hug. Tee tee!");
