@@ -1,0 +1,3 @@
+messages:
+  knead_player: "你揉了揉 %s，好感度 +1。"
+  knead_by_player: "你被 %s 揉了揉，好感度 +1。"

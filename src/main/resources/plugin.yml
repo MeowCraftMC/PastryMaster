@@ -1,7 +1,7 @@
 name: PastryMaster
 version: @version@
 main: cx.rain.mc.pastrymaster.PastryMaster
-api-version: 1.16
+api-version: 1.13
 prefix: PastryMaster
 authors: [ AmemiyaSigure ]
 description: Be a pastry master.
