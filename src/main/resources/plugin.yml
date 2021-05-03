@@ -6,3 +6,5 @@ prefix: PastryMaster
 authors: [ AmemiyaSigure ]
 description: Be a pastry master.
 website: https://github.com/AmemiyaSigure/PastryMaster
+softdepend:
+  - LoreAnvil
