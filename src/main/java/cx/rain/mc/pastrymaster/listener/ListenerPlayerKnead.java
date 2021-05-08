@@ -27,7 +27,7 @@ public class ListenerPlayerKnead implements Listener {
             Player targetPlayer = (Player) entity;
             Player player = event.getPlayer();
 
-            PastryMaster.getInstance().getLogger().info(player.getName() + " -> " + targetPlayer.getName());
+            PastryMaster.getInstance().getLogger().info(player.getName() + " 揉了揉 " + targetPlayer.getName());
 
             TextComponent text = new TextComponent(String.format(
                     config.getString("messages.knead_player"), targetPlayer.getName()));
@@ -38,6 +38,7 @@ public class ListenerPlayerKnead implements Listener {
                     config.getString("messages.knead_by_player"), player.getName()));
             targetText.setColor(ChatColor.GOLD);
             targetPlayer.spigot().sendMessage(targetText);
+
         }
     }
 }

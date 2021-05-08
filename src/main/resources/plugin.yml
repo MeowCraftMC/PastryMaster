@@ -13,4 +13,3 @@ commands:
     description: 切换面点大师的记分板
     aliases:
       - pastry
-      - pmaster

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PastryMasterCommand implements TabExecutor {
-    private final String[] subCommands = {"master", "welcome"};
+    private final String[] subCommands = {"master", "popular"};
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -22,7 +22,7 @@ public class PastryMasterCommand implements TabExecutor {
                 sender.sendMessage("参数不够");
             else if (args[0].equals("master"))
                 ((Player) sender).setScoreboard(PastryMaster.getInstance().getPastryMasterBoard());
-            else if (args[0].equals("welcome"))
+            else if (args[0].equals("popular"))
                 ((Player) sender).setScoreboard(PastryMaster.getInstance().getMostPopularBoard());
         }
         return true;
