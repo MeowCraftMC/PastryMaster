@@ -23,9 +23,11 @@ public class ListenerPlayerKnead implements Listener {
     @EventHandler
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
-        if (entity instanceof Player) {
+        if (entity instanceof Player && event.getHand().name().equals("HAND")) {
             Player targetPlayer = (Player) entity;
             Player player = event.getPlayer();
+
+            PastryMaster.getInstance().getLogger().info(player.getName() + " -> " + targetPlayer.getName());
 
             TextComponent text = new TextComponent(String.format(
                     config.getString("messages.knead_player"), targetPlayer.getName()));
