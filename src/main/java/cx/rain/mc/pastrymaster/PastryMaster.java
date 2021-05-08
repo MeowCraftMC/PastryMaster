@@ -35,11 +35,11 @@ public final class PastryMaster extends JavaPlugin {
         return INSTANCE;
     }
 
-    public Scoreboard getPastryMasterBoard(){
+    public Scoreboard getPastryMasterBoard() {
         return pastryMasterBoard;
     }
 
-    public Scoreboard getMostPopularBoard(){
+    public Scoreboard getMostPopularBoard() {
         return mostPopularBoard;
     }
 
@@ -49,7 +49,7 @@ public final class PastryMaster extends JavaPlugin {
         saveDefaultConfig();
         configManager.load();
 
-        Bukkit.getPluginManager().registerEvents(new ListenerPlayerKnead(), this);
+        Bukkit.getPluginManager().registerEvents(new ListenerPlayerKnead(INSTANCE), this);
         Bukkit.getPluginCommand("pastrymaster").setExecutor(new PastryMasterCommand());
 
         SetupScoreboard();
@@ -78,21 +78,21 @@ public final class PastryMaster extends JavaPlugin {
         mostPopularObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         //load score from yaml
-        YamlConfiguration data=getData();
-        if(!data.contains("pastryMaster"))
+        YamlConfiguration data = getData();
+        if (!data.contains("pastryMaster"))
             data.createSection("pastryMaster");
-        if(!data.contains("mostPopular"))
+        if (!data.contains("mostPopular"))
             data.createSection("mostPopular");
         ConfigurationSection section = data.getConfigurationSection("pastryMaster");
         Set<String> keys = section.getKeys(false);
-        for(String key:keys){
-            Score score=pastryMasterObjective.getScore(key);
+        for (String key : keys) {
+            Score score = pastryMasterObjective.getScore(key);
             score.setScore(section.getInt(key));
         }
         section = data.getConfigurationSection("mostPopular");
         keys = section.getKeys(false);
-        for(String key:keys){
-            Score score=mostPopularObjective.getScore(key);
+        for (String key : keys) {
+            Score score = mostPopularObjective.getScore(key);
             score.setScore(section.getInt(key));
         }
     }
@@ -108,5 +108,9 @@ public final class PastryMaster extends JavaPlugin {
 
     public YamlConfiguration getData() {
         return configManager.getData();
+    }
+
+    public void saveData() {
+        configManager.save();
     }
 }

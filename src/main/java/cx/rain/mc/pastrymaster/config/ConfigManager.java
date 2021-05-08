@@ -14,8 +14,8 @@ public class ConfigManager {
 
     public ConfigManager(PastryMaster pluginIn) {
         plugin = pluginIn;
-        dataFile=new File(plugin.getDataFolder().getPath(), "data.yml");
-        data= new YamlConfiguration();
+        dataFile = new File(plugin.getDataFolder().getPath(), "data.yml");
+        data = new YamlConfiguration();
     }
 
     public void load() {
