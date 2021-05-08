@@ -2,6 +2,7 @@ package cx.rain.mc.pastrymaster;
 
 import cx.rain.mc.pastrymaster.command.PastryMasterCommand;
 import cx.rain.mc.pastrymaster.config.ConfigManager;
+import cx.rain.mc.pastrymaster.listener.ListenerPlayerJoin;
 import cx.rain.mc.pastrymaster.listener.ListenerPlayerKnead;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -50,7 +51,8 @@ public final class PastryMaster extends JavaPlugin {
         configManager.load();
 
         Bukkit.getPluginManager().registerEvents(new ListenerPlayerKnead(INSTANCE), this);
-        Bukkit.getPluginCommand("pastrymaster").setExecutor(new PastryMasterCommand());
+        Bukkit.getPluginManager().registerEvents(new ListenerPlayerJoin(INSTANCE), this);
+        Bukkit.getPluginCommand("pastrymaster").setExecutor(new PastryMasterCommand(INSTANCE));
 
         SetupScoreboard();
 
@@ -83,6 +85,8 @@ public final class PastryMaster extends JavaPlugin {
             data.createSection("pastryMaster");
         if (!data.contains("mostPopular"))
             data.createSection("mostPopular");
+        if (!data.contains("playerScoreboard"))
+            data.createSection("playerScoreboard");
         ConfigurationSection section = data.getConfigurationSection("pastryMaster");
         Set<String> keys = section.getKeys(false);
         for (String key : keys) {
