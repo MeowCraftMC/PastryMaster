@@ -33,8 +33,8 @@ public class ListenerPlayerKnead implements Listener {
             player.spigot().sendMessage(text);
 
             TextComponent targetText = new TextComponent(String.format(
-                    config.getString("messages.knead_by_player"), targetPlayer.getName()));
-            text.setColor(ChatColor.GOLD);
+                    config.getString("messages.knead_by_player"), player.getName()));
+            targetText.setColor(ChatColor.GOLD);
             targetPlayer.spigot().sendMessage(targetText);
         }
     }
