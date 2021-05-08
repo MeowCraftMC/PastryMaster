@@ -19,11 +19,15 @@ public class PastryMasterCommand implements TabExecutor {
         //处理命令
         if (sender instanceof Player) {
             if (args.length == 0)
-                sender.sendMessage("参数不够");
-            else if (args[0].equals("master"))
+                sender.sendMessage("§c参数不够");
+            else if (args[0].equals("master")) {
                 ((Player) sender).setScoreboard(PastryMaster.getInstance().getPastryMasterBoard());
-            else if (args[0].equals("popular"))
+                sender.sendMessage("§3你的记分板已切换至 面点大师榜");
+            } else if (args[0].equals("popular")) {
                 ((Player) sender).setScoreboard(PastryMaster.getInstance().getMostPopularBoard());
+                sender.sendMessage("§6你的记分板已切换至 最受欢迎榜");
+            } else
+                sender.sendMessage("§c参数错误");
         }
         return true;
     }
