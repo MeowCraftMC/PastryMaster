@@ -87,6 +87,8 @@ public final class PastryMaster extends JavaPlugin {
             data.createSection("mostPopular");
         if (!data.contains("playerScoreboard"))
             data.createSection("playerScoreboard");
+        if (!data.contains("lastKneadTime"))
+            data.createSection("lastKneadTime");
         ConfigurationSection section = data.getConfigurationSection("pastryMaster");
         Set<String> keys = section.getKeys(false);
         for (String key : keys) {

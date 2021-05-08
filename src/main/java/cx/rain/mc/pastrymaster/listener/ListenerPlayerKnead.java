@@ -29,6 +29,15 @@ public class ListenerPlayerKnead implements Listener {
             Player targetPlayer = (Player) entity;
             Player player = event.getPlayer();
 
+            long now = System.currentTimeMillis();
+            long lastKneadTime = data.getLong("lastKneadTime." + player.getName(), 0L);
+            if (now - lastKneadTime < 30 * 1000) {
+                long cdTime = 30 - (now - lastKneadTime) / 1000;
+                player.sendMessage("§d你刚刚已经揉过别人了，请等待 " + cdTime + " 秒再来～");
+                return;
+            }
+            data.set("lastKneadTime." + player.getName(), now);
+
             plugin.getLogger().info(player.getName() + " 揉了揉 " + targetPlayer.getName());
 
             TextComponent text = new TextComponent(String.format(
