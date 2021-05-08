@@ -17,7 +17,7 @@ public class ListenerPlayerKnead implements Listener {
 
     public ListenerPlayerKnead() {
         config = PastryMaster.getInstance().getConfig();
-        //data = PastryMaster.getInstance().getData();
+        data = PastryMaster.getInstance().getData();
     }
 
     @EventHandler

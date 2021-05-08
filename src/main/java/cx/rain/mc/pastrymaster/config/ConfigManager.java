@@ -9,16 +9,18 @@ import java.io.IOException;
 
 public class ConfigManager {
     private PastryMaster plugin;
-    private File dataFile = new File(plugin.getDataFolder().getPath(), "data.yml");
-    private YamlConfiguration data = new YamlConfiguration();
+    private File dataFile;
+    private YamlConfiguration data;
 
     public ConfigManager(PastryMaster pluginIn) {
         plugin = pluginIn;
+        dataFile=new File(plugin.getDataFolder().getPath(), "data.yml");
+        data= new YamlConfiguration();
     }
 
     public void load() {
         try {
-            if (dataFile.exists()) {
+            if (!dataFile.exists()) {
                 dataFile.createNewFile();
             }
 

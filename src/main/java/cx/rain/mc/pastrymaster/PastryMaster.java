@@ -25,7 +25,7 @@ public final class PastryMaster extends JavaPlugin {
     public PastryMaster() {
         INSTANCE = this;
 
-        //configManager = new ConfigManager(this);
+        configManager = new ConfigManager(this);
     }
 
     public static PastryMaster getInstance() {
@@ -47,7 +47,7 @@ public final class PastryMaster extends JavaPlugin {
 
 
         saveDefaultConfig();
-        //configManager.load();
+        configManager.load();
 
         Bukkit.getPluginManager().registerEvents(new ListenerPlayerKnead(), this);
         Bukkit.getPluginCommand("pastrymaster").setExecutor(new PastryMasterCommand());
