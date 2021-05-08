@@ -6,6 +6,7 @@ import cx.rain.mc.pastrymaster.listener.ListenerPlayerJoin;
 import cx.rain.mc.pastrymaster.listener.ListenerPlayerKnead;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,6 +18,7 @@ public final class PastryMaster extends JavaPlugin {
     private static PastryMaster INSTANCE;
 
     private ConfigManager configManager;
+    private FileConfiguration config;
     /**
      * 面点大师排行榜
      */
@@ -49,6 +51,7 @@ public final class PastryMaster extends JavaPlugin {
         // Plugin startup logic
         saveDefaultConfig();
         configManager.load();
+        config = getConfig();
 
         Bukkit.getPluginManager().registerEvents(new ListenerPlayerKnead(INSTANCE), this);
         Bukkit.getPluginManager().registerEvents(new ListenerPlayerJoin(INSTANCE), this);
@@ -74,8 +77,8 @@ public final class PastryMaster extends JavaPlugin {
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         pastryMasterBoard = manager.getNewScoreboard();
         mostPopularBoard = manager.getNewScoreboard();
-        Objective pastryMasterObjective = pastryMasterBoard.registerNewObjective("board", "dummy", "§3面点大师榜");
-        Objective mostPopularObjective = mostPopularBoard.registerNewObjective("board", "dummy", "§6最受欢迎榜");
+        Objective pastryMasterObjective = pastryMasterBoard.registerNewObjective("board", "dummy", config.getString("messages.scoreboard_master"));
+        Objective mostPopularObjective = mostPopularBoard.registerNewObjective("board", "dummy", config.getString("messages.scoreboard_popular"));
         pastryMasterObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
         mostPopularObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
 

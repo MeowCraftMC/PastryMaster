@@ -33,22 +33,15 @@ public class ListenerPlayerKnead implements Listener {
             long lastKneadTime = data.getLong("lastKneadTime." + player.getName(), 0L);
             if (now - lastKneadTime < 30 * 1000) {
                 long cdTime = 30 - (now - lastKneadTime) / 1000;
-                player.sendMessage("§d你刚刚已经揉过别人了，请等待 " + cdTime + " 秒再来～");
+                player.sendMessage(String.format(config.getString("messages.countdown"), cdTime));
                 return;
             }
             data.set("lastKneadTime." + player.getName(), now);
 
-            plugin.getLogger().info(player.getName() + " 揉了揉 " + targetPlayer.getName());
+            plugin.getLogger().info(player.getName() + " Kneaded " + targetPlayer.getName());
 
-            TextComponent text = new TextComponent(String.format(
-                    config.getString("messages.knead_player"), targetPlayer.getName()));
-            text.setColor(ChatColor.AQUA);
-            player.spigot().sendMessage(text);
-
-            TextComponent targetText = new TextComponent(String.format(
-                    config.getString("messages.knead_by_player"), player.getName()));
-            targetText.setColor(ChatColor.GOLD);
-            targetPlayer.spigot().sendMessage(targetText);
+            player.sendMessage(String.format(config.getString("messages.knead_player"), targetPlayer.getName()));
+            targetPlayer.sendMessage(String.format(config.getString("messages.knead_by_player"), player.getName()));
 
             int masterCount = data.getInt("pastryMaster." + player.getName(), 0);
             int popularCount = data.getInt("mostPopular." + targetPlayer.getName(), 0);
