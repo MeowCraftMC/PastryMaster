@@ -1,6 +1,7 @@
 package cx.rain.mc.pastrymaster.command;
 
 import cx.rain.mc.pastrymaster.PastryMaster;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -17,7 +18,7 @@ public class PastryMasterCommand implements TabExecutor {
     private PastryMaster plugin;
     private FileConfiguration config;
     private YamlConfiguration data;
-    private final String[] subCommands = {"master", "popular"};
+    private final String[] subCommands = {"master", "popular", "reset"};
 
     public PastryMasterCommand(PastryMaster instance) {
         plugin = instance;
@@ -41,6 +42,9 @@ public class PastryMasterCommand implements TabExecutor {
                 sender.sendMessage(config.getString("messages.scoreboard_switch_to_popular"));
                 data.set("playerScoreboard." + sender.getName(), "popular");
                 plugin.saveData();
+            } else if (args[0].equals("reset")) {
+                sender.sendMessage(config.getString("messages.scoreboard_reset"));
+                ((Player) sender).setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
             } else {
                 sender.sendMessage(config.getString("messages.invalid_args"));
             }

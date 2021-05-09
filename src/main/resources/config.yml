@@ -8,3 +8,4 @@ messages:
   scoreboard_switch_to_popular: "§6你的记分板已切换至 最受欢迎榜。"
   scoreboard_master: "§3面点大师榜"
   scoreboard_popular: "§6最受欢迎榜"
+  scoreboard_reset: "§r计分版已重置。"
