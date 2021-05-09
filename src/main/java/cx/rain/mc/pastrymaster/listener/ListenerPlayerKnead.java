@@ -1,8 +1,6 @@
 package cx.rain.mc.pastrymaster.listener;
 
 import cx.rain.mc.pastrymaster.PastryMaster;
-import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;

@@ -57,22 +57,22 @@ public final class PastryMaster extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ListenerPlayerJoin(INSTANCE), this);
         Bukkit.getPluginCommand("pastrymaster").setExecutor(new PastryMasterCommand(INSTANCE));
 
-        SetupScoreboard();
+        setupScoreboard();
 
         getLogger().info("Are you pastry master?"); //Indicating load finished
 
         try {
             Class.forName("cx.rain.mc.bukkit.loreanvil.LoreAnvil");
             Plugin plugin = Bukkit.getPluginManager().getPlugin("LoreAnvil");
-            plugin.getLogger().info("Oh, I'm sad, there are no hug.");
+            plugin.getLogger().info("Oh, I'm sad, there is a bug.");
             getLogger().info("Don't be sad, have a hug. Tee tee!");
-            plugin.getLogger().info("Fantastic!");
+            plugin.getLogger().info("Thx!");
         } catch (ClassNotFoundException ignored) {
             // Silence is gold.
         }
     }
 
-    private void SetupScoreboard() {
+    private void setupScoreboard() {
         //Setup scoreboard
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         pastryMasterBoard = manager.getNewScoreboard();
@@ -84,14 +84,19 @@ public final class PastryMaster extends JavaPlugin {
 
         //load score from yaml
         YamlConfiguration data = getData();
-        if (!data.contains("pastryMaster"))
+        if (!data.contains("pastryMaster")) {
             data.createSection("pastryMaster");
-        if (!data.contains("mostPopular"))
+        }
+        if (!data.contains("mostPopular")) {
             data.createSection("mostPopular");
-        if (!data.contains("playerScoreboard"))
+        }
+        if (!data.contains("playerScoreboard")) {
             data.createSection("playerScoreboard");
-        if (!data.contains("lastKneadTime"))
+        }
+        if (!data.contains("lastKneadTime")) {
             data.createSection("lastKneadTime");
+        }
+
         ConfigurationSection section = data.getConfigurationSection("pastryMaster");
         Set<String> keys = section.getKeys(false);
         for (String key : keys) {

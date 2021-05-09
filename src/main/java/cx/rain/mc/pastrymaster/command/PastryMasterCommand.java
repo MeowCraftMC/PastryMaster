@@ -41,8 +41,9 @@ public class PastryMasterCommand implements TabExecutor {
                 sender.sendMessage(config.getString("messages.scoreboard_switch_to_popular"));
                 data.set("playerScoreboard." + sender.getName(), "popular");
                 plugin.saveData();
-            } else
+            } else {
                 sender.sendMessage(config.getString("messages.invalid_args"));
+            }
         }
         return true;
     }
