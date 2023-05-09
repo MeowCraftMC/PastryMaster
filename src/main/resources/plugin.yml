@@ -1,11 +1,11 @@
 name: PastryMaster
-version: @version@
+version: '${version}'
 main: cx.rain.mc.pastrymaster.PastryMaster
 api-version: 1.13
 prefix: PastryMaster
-authors: [ AmemiyaSigure ]
+authors: [ qyl27, MeowCraftMC ]
 description: Be a pastry master.
-website: https://github.com/AmemiyaSigure/PastryMaster
+website: https://github.com/qyl27/PastryMaster
 softdepend:
   - LoreAnvil
 commands:
