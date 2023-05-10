@@ -1,53 +1,74 @@
 package cx.rain.mc.pastrymaster.listener;
 
+import cx.rain.mc.pastrymaster.Constants;
 import cx.rain.mc.pastrymaster.PastryMaster;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import cx.rain.mc.pastrymaster.managers.ConfigManager;
+import cx.rain.mc.pastrymaster.data.persistence.PastryContainerType;
+import cx.rain.mc.pastrymaster.data.persistence.PastryData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.inventory.EquipmentSlot;
+
+import java.util.logging.Logger;
 
 public class ListenerPlayerKnead implements Listener {
-    private FileConfiguration config;
-    private YamlConfiguration data;
-    private PastryMaster plugin;
+    private final PastryMaster plugin;
+    private final ConfigManager configManager;
+    private final Logger logger;
 
-    public ListenerPlayerKnead(PastryMaster instance) {
-        plugin = instance;
-        config = plugin.getConfig();
-        data = plugin.getData();
+    public ListenerPlayerKnead(PastryMaster plugin) {
+        this.plugin = plugin;
+        this.configManager = plugin.getConfigManager();
+        this.logger = plugin.getLogger();
     }
 
     @EventHandler
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
-        if (entity instanceof Player && event.getHand().name().equals("HAND")) {
-            Player targetPlayer = (Player) entity;
+        if (entity instanceof Player targetPlayer && event.getHand() == EquipmentSlot.HAND) {
             Player player = event.getPlayer();
 
+            var playerData = player.getPersistentDataContainer();
+            var playerPastry = playerData.get(PastryContainerType.NAMESPACED_KEY_DATA_TYPE, PastryContainerType.INSTANCE);
+            if (playerPastry == null) {
+                playerPastry = new PastryData();
+                playerData.set(PastryContainerType.NAMESPACED_KEY_DATA_TYPE, PastryContainerType.INSTANCE, playerPastry);
+            }
+
+            var targetData = targetPlayer.getPersistentDataContainer();
+            var targetPastry = targetData.get(PastryContainerType.NAMESPACED_KEY_DATA_TYPE, PastryContainerType.INSTANCE);
+            if (targetPastry == null) {
+                targetPastry = new PastryData();
+                targetData.set(PastryContainerType.NAMESPACED_KEY_DATA_TYPE, PastryContainerType.INSTANCE, targetPastry);
+            }
+
             long now = System.currentTimeMillis();
-            long lastKneadTime = data.getLong("lastKneadTime." + player.getName(), 0L);
-            if (now - lastKneadTime < 30 * 1000) {
-                long cdTime = 30 - (now - lastKneadTime) / 1000;
-                player.sendMessage(String.format(config.getString("messages.countdown"), cdTime));
+            if (now - playerPastry.lastKneaded < 30 * 1000) {
+                long cdTime = 30 - (now - playerPastry.lastKneaded) / 1000;
+                player.sendMessage(configManager.getTranslated(Constants.MESSAGE_COUNTDOWN, cdTime));
                 return;
             }
-            data.set("lastKneadTime." + player.getName(), now);
+            playerPastry.lastKneaded = now;
+            playerData.set(PastryContainerType.NAMESPACED_KEY_DATA_TYPE, PastryContainerType.INSTANCE, playerPastry);
 
-            plugin.getLogger().info(player.getName() + " Kneaded " + targetPlayer.getName());
+            logger.info(player.getName() + " Kneaded " + targetPlayer.getName());
 
-            player.sendMessage(String.format(config.getString("messages.knead_player"), targetPlayer.getName()));
-            targetPlayer.sendMessage(String.format(config.getString("messages.knead_by_player"), player.getName()));
+            var playerUuid = player.getUniqueId();
+            if (!targetPastry.favorability.containsKey(playerUuid)) {
+                targetPastry.favorability.put(playerUuid, 0);
+            }
+            targetPastry.favorability.put(playerUuid, targetPastry.favorability.get(playerUuid) + 1);
+            targetData.set(PastryContainerType.NAMESPACED_KEY_DATA_TYPE, PastryContainerType.INSTANCE, targetPastry);
 
-            int masterCount = data.getInt("pastryMaster." + player.getName(), 0);
-            int popularCount = data.getInt("mostPopular." + targetPlayer.getName(), 0);
-            plugin.getPastryMasterBoard().getObjective("board").getScore(player.getName()).setScore(++masterCount);
-            plugin.getMostPopularBoard().getObjective("board").getScore(targetPlayer.getName()).setScore(++popularCount);
-            data.set("pastryMaster." + player.getName(), masterCount);
-            data.set("mostPopular." + targetPlayer.getName(), popularCount);
-            plugin.saveData();
+            player.sendMessage(configManager.getTranslated(Constants.MESSAGE_KNEAD_PLAYER, targetPlayer.getName()));
+            targetPlayer.sendMessage(configManager.getTranslated(Constants.MESSAGE_KNEAD_BY_PLAYER, player.getName()));
+
+            configManager.increaseKneadData(player.getName(), targetPlayer.getName());
+            configManager.save();
+            plugin.getScoreboardsManager().update();
         }
     }
 }

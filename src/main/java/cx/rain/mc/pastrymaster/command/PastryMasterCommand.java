@@ -1,6 +1,10 @@
 package cx.rain.mc.pastrymaster.command;
 
+import cx.rain.mc.pastrymaster.Constants;
 import cx.rain.mc.pastrymaster.PastryMaster;
+import cx.rain.mc.pastrymaster.data.persistence.PastryContainerType;
+import cx.rain.mc.pastrymaster.data.persistence.PastryData;
+import cx.rain.mc.pastrymaster.managers.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -15,39 +19,46 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PastryMasterCommand implements TabExecutor {
-    private PastryMaster plugin;
-    private FileConfiguration config;
-    private YamlConfiguration data;
+    private final ConfigManager configManager;
+
     private final String[] subCommands = {"master", "popular", "reset"};
 
-    public PastryMasterCommand(PastryMaster instance) {
-        plugin = instance;
-        data = plugin.getData();
-        config = plugin.getConfig();
+    public PastryMasterCommand(PastryMaster plugin) {
+        configManager = plugin.getConfigManager();
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         //处理命令
-        if (sender instanceof Player) {
-            if (args.length == 0)
-                sender.sendMessage(config.getString("messages.not_enough_args"));
-            else if (args[0].equals("master")) {
-                ((Player) sender).setScoreboard(PastryMaster.getInstance().getPastryMasterBoard());
-                sender.sendMessage(config.getString("messages.scoreboard_switch_to_master"));
-                data.set("playerScoreboard." + sender.getName(), "master");
-                plugin.saveData();
-            } else if (args[0].equals("popular")) {
-                ((Player) sender).setScoreboard(PastryMaster.getInstance().getMostPopularBoard());
-                sender.sendMessage(config.getString("messages.scoreboard_switch_to_popular"));
-                data.set("playerScoreboard." + sender.getName(), "popular");
-                plugin.saveData();
-            } else if (args[0].equals("reset")) {
-                sender.sendMessage(config.getString("messages.scoreboard_reset"));
-                ((Player) sender).setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
-            } else {
-                sender.sendMessage(config.getString("messages.invalid_args"));
+        if (sender instanceof Player player) {
+            var data = player.getPersistentDataContainer();
+            var pastry = data.get(PastryContainerType.NAMESPACED_KEY_DATA_TYPE, PastryContainerType.INSTANCE);
+            if (pastry == null) {
+                pastry = new PastryData();
+                data.set(PastryContainerType.NAMESPACED_KEY_DATA_TYPE, PastryContainerType.INSTANCE, pastry);
             }
+
+            if (args.length == 0) {
+                sender.sendMessage(configManager.getTranslated(Constants.MESSAGE_NOT_ENOUGH_ARGS));
+                pastry.scoreboardType = "";
+            }
+            else if (args[0].equals("master")) {
+                player.setScoreboard(PastryMaster.getInstance().getScoreboardsManager().getPastryMasterBoard());
+                sender.sendMessage(configManager.getTranslated(Constants.MESSAGE_SWITCH_TO_MASTER));
+                pastry.scoreboardType = "master";
+            } else if (args[0].equals("popular")) {
+                player.setScoreboard(PastryMaster.getInstance().getScoreboardsManager().getMostPopularBoard());
+                sender.sendMessage(configManager.getTranslated(Constants.MESSAGE_SWITCH_TO_POPULAR));
+                pastry.scoreboardType = "popular";
+            } else if (args[0].equals("reset")) {
+                sender.sendMessage(configManager.getTranslated(Constants.MESSAGE_SCOREBOARD_RESET));
+                player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+            } else {
+                sender.sendMessage(configManager.getTranslated(Constants.MESSAGE_INVALID_ARGS));
+                pastry.scoreboardType = "";
+            }
+
+            data.set(PastryContainerType.NAMESPACED_KEY_DATA_TYPE, PastryContainerType.INSTANCE, pastry);
         }
         return true;
     }

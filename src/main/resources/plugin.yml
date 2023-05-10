@@ -1,7 +1,7 @@
 name: PastryMaster
 version: '${version}'
 main: cx.rain.mc.pastrymaster.PastryMaster
-api-version: 1.13
+api-version: 1.14
 prefix: PastryMaster
 authors: [ qyl27, MeowCraftMC ]
 description: Be a pastry master.
