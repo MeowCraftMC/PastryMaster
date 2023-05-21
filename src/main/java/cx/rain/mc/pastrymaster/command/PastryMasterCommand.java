@@ -40,7 +40,7 @@ public class PastryMasterCommand implements TabExecutor {
 
             if (args.length == 0) {
                 sender.sendMessage(configManager.getTranslated(Constants.MESSAGE_NOT_ENOUGH_ARGS));
-                pastry.scoreboardType = "";
+                pastry.scoreboardType = "reset";
             }
             else if (args[0].equals("master")) {
                 player.setScoreboard(PastryMaster.getInstance().getScoreboardsManager().getPastryMasterBoard());
@@ -55,7 +55,7 @@ public class PastryMasterCommand implements TabExecutor {
                 player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
             } else {
                 sender.sendMessage(configManager.getTranslated(Constants.MESSAGE_INVALID_ARGS));
-                pastry.scoreboardType = "";
+                pastry.scoreboardType = "reset";
             }
 
             data.set(PastryContainerType.NAMESPACED_KEY_DATA_TYPE, PastryContainerType.INSTANCE, pastry);

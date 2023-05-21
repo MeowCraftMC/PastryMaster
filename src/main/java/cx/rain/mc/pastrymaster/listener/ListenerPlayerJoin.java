@@ -3,6 +3,7 @@ package cx.rain.mc.pastrymaster.listener;
 import cx.rain.mc.pastrymaster.PastryMaster;
 import cx.rain.mc.pastrymaster.data.persistence.PastryContainerType;
 import cx.rain.mc.pastrymaster.data.persistence.PastryData;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,6 +25,8 @@ public class ListenerPlayerJoin implements Listener {
             player.setScoreboard(PastryMaster.getInstance().getScoreboardsManager().getPastryMasterBoard());
         } else if (pastry.scoreboardType.equals("popular")) {
             player.setScoreboard(PastryMaster.getInstance().getScoreboardsManager().getMostPopularBoard());
+        } else if (pastry.scoreboardType.equals("reset")) {
+            player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
         }
     }
 }

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class PastryData {
-    public String scoreboardType = "";
+    public String scoreboardType = "reset";
     public long lastKneaded;
     public Map<UUID, Integer> favorability = new HashMap<>();
 }
