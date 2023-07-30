@@ -53,9 +53,9 @@ public class PastryMasterCommand implements TabExecutor {
             } else if (args[0].equals("reset")) {
                 sender.sendMessage(configManager.getTranslated(Constants.MESSAGE_SCOREBOARD_RESET));
                 player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+                pastry.scoreboardType = "reset";
             } else {
                 sender.sendMessage(configManager.getTranslated(Constants.MESSAGE_INVALID_ARGS));
-                pastry.scoreboardType = "reset";
             }
 
             data.set(PastryContainerType.NAMESPACED_KEY_DATA_TYPE, PastryContainerType.INSTANCE, pastry);
