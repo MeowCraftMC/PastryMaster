@@ -29,8 +29,11 @@ public class ListenerPlayerKnead implements Listener {
     @EventHandler
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
-        if (event.getPlayer().getGameMode().equals(GameMode.SPECTATOR))
+
+        if (event.getPlayer().getGameMode().equals(GameMode.SPECTATOR)) {
             return;
+        }
+
         if (entity instanceof Player targetPlayer && event.getHand() == EquipmentSlot.HAND) {
             Player player = event.getPlayer();
 
