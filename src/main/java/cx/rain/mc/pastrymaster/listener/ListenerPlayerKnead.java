@@ -5,6 +5,7 @@ import cx.rain.mc.pastrymaster.PastryMaster;
 import cx.rain.mc.pastrymaster.managers.ConfigManager;
 import cx.rain.mc.pastrymaster.data.persistence.PastryContainerType;
 import cx.rain.mc.pastrymaster.data.persistence.PastryData;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,6 +29,11 @@ public class ListenerPlayerKnead implements Listener {
     @EventHandler
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
         Entity entity = event.getRightClicked();
+
+        if (event.getPlayer().getGameMode().equals(GameMode.SPECTATOR)) {
+            return;
+        }
+
         if (entity instanceof Player targetPlayer && event.getHand() == EquipmentSlot.HAND) {
             Player player = event.getPlayer();
 
