@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'cx.rain.mc'
-version = '1.1.0'
+version = '1.1.1'
 archivesBaseName = 'pastry-master'
 
 sourceCompatibility = JavaVersion.toVersion(17)
